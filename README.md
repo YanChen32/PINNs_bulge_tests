@@ -15,7 +15,7 @@ Two-dimensional (2D) crystalline materials have great potential for flexible ele
 This work develops a **Physics-Informed Neural Network (PINNs) framework** for 2D material bulge testing, combining modified **Föppl-von Kármán theory** with **energy-based loss functions** to capture arbitrary symmetries and decoupled elasticity.
 
 <p align="center">
-  <img src="https://github.com/YanChen32/PINNs_bulge_tests/raw/main/framework.png" alt="Framework Overview" width="800"/>
+  <img src="https://github.com/YanChen32/PINNs_bulge_tests/raw/framework.png" alt="Framework Overview" width="800"/>
 </p>
 
 ## ✨ Key Features
@@ -111,12 +111,12 @@ pip install torch numpy matplotlib scipy jupyter
 
 The framework has been validated on four representative 2D crystals:
 
-| Material | Symmetry | C₁₁²ᴰ (N/m) | C₂₂²ᴰ (N/m) | C₁₂²ᴰ (N/m) | C₆₆²ᴰ (N/m) |
-|----------|----------|-------------|-------------|-------------|-------------|
-| Graphene | Hexagonal | 354.1 | 354.1 | 56.7 | 148.7 |
-| Black Phosphorene | Rectangular | 102.98 | 27.30 | 17.51 | 22.76 |
-| Mn₂S₂ | Square | 121.83 | 121.83 | 33.90 | 108.45 |
-| PdCdCl₄ | Oblique | - | - | - | - |
+| Material | Symmetry | C₁₁²ᴰ (N/m) | C₂₂²ᴰ (N/m) | C₁₂²ᴰ (N/m) | C₆₆²ᴰ (N/m) | C₁₆²ᴰ (N/m) | C₂₆²ᴰ (N/m) | 
+|----------|----------|-------------|-------------|-------------|-------------|-------------|-------------|
+| Graphene | Hexagonal | 354.1 | 354.1 | 56.7 | 148.7 | 0.00 | 0.00 |
+| Black Phosphorene | Rectangular | 102.98 | 27.30 | 17.51 | 22.76 | 0.00 | 0.00 |
+| Mn₂S₂ | Square | 121.83 | 121.83 | 33.90 | 108.45 | 0.00 | 0.00 |
+| PdCdCl₄ | Oblique | 12.38 | 37.00 | 8.50 | 14.48 | 3.24 | 9.76 |
 
 ## 🔧 Customization
 
@@ -167,31 +167,12 @@ If you find this code useful for your research, please cite our paper:
 @article{zheng2025pinns,
   title={Physics-Informed Neural Networks for Bulge Test Modeling of General Anisotropic Two-Dimensional Crystalline Materials with Decoupled Elasticity},
   author={Zheng, Yichen and Kang, Kai and Zhang, Zaiyu and Liu, Huichao and Liu, Yilun and Chen, Yan},
-  journal={[Journal Name]},
+  journal={[Extreme Mechanics Letters]},
   year={2025},
   doi={[DOI]}
 }
 ```
-
-## 👥 Authors
-
-- **Yichen Zheng** - *Methodology, Software, Validation*
-- **Kai Kang** - *Validation, Investigation*
-- **Zaiyu Zhang** - *Validation, Investigation*
-- **Huichao Liu*** - *Methodology, Validation* ([hc.liu@pku.edu.cn](mailto:hc.liu@pku.edu.cn))
-- **Yilun Liu** - *Validation, Investigation*
-- **Yan Chen*** - *Conceptualization, Supervision* ([yanchen@xjtu.edu.cn](mailto:yanchen@xjtu.edu.cn))
-
 *Laboratory for Multiscale Mechanics and Medical Science, SV LAB, School of Aerospace, Xi'an Jiaotong University, Xi'an 710049, China*
-
-## 🙏 Acknowledgments
-
-This work was supported by:
-- National Natural Science Foundation of China (Grant No. 12302140)
-- National Key Projects for Research and Development of China (Grant No. 2024YFA1209801)
-- Science and Technology Agency of Shaanxi Province (Grant No. 2025YXYC012)
-- Fundamental Research Funds for the Central Universities of China
-- China Postdoctoral Science Foundation
 
 ## 📄 License
 
@@ -200,7 +181,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📧 Contact
 
 For questions or collaborations, please contact:
-- Huichao Liu: [hc.liu@pku.edu.cn](mailto:hc.liu@pku.edu.cn)
 - Yan Chen: [yanchen@xjtu.edu.cn](mailto:yanchen@xjtu.edu.cn)
 
 ---
