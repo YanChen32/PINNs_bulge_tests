@@ -1,2 +1,211 @@
-# PINNs_bulge_tests
-Simulate the deformation of 2D crystal bubbles with decouped elasticity in bulge tests
+# Physics-Informed Neural Networks for Bulge Test Modeling of 2D Crystalline Materials
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-1.10+-ee4c2c.svg)](https://pytorch.org/)
+
+This repository contains the official implementation of the paper:
+
+**"Physics-Informed Neural Networks for Bulge Test Modeling of General Anisotropic Two-Dimensional Crystalline Materials with Decoupled Elasticity"**
+
+## 📖 Overview
+
+Two-dimensional (2D) crystalline materials have great potential for flexible electronics and strain engineering, but their mechanical characterization via bulge testing is challenging. Commercial Finite Element Analysis (FEA) cannot fully capture decoupled in-plane and out-of-plane stiffnesses or complex constitutive behaviors, and analytical solutions are intractable for anisotropic crystals with irregular geometries.
+
+This work develops a **Physics-Informed Neural Network (PINNs) framework** for 2D material bulge testing, combining modified **Föppl-von Kármán theory** with **energy-based loss functions** to capture arbitrary symmetries and decoupled elasticity.
+
+<p align="center">
+  <img src="https://github.com/YanChen32/PINNs_bulge_tests/raw/main/framework.png" alt="Framework Overview" width="800"/>
+</p>
+
+## ✨ Key Features
+
+- **Arbitrary Crystal Symmetries**: Supports hexagonal (graphene), square (Mn₂S₂), rectangular (black phosphorene), and oblique (PdCdCl₄) symmetry classes
+- **Decoupled Elasticity**: Naturally captures the decoupled in-plane and out-of-plane stiffnesses unique to 2D materials
+- **Flexible Geometry**: Accommodates circular, elliptical, and square bubble geometries through configurable sampling and boundary conditions
+- **Nonlinear Constitutive Behaviors**: Extends to material nonlinearity with modified energy density formulations
+- **Mesh-Free Approach**: No mesh generation required, avoiding the constraints of commercial FEA software
+
+## 📁 Repository Structure
+
+```
+PINNs_bulge_tests/
+├── 2D_crystal_bubble_membrane.ipynb      # Main notebook for membrane model
+├── 2D_crystal_bubble_plate.ipynb         # Main notebook for plate model (circular boundary)
+├── 2D_crystal_bubble_plate_ellipse.ipynb # Plate model with elliptical boundary
+├── 2D_crystal_bubble_plate_square.ipynb  # Plate model with square boundary
+├── Membrane_normal_settings/             # Trained models and results for membrane model
+├── Plate_normal_settings/                # Trained models and results for plate model
+├── nonlinear/                            # Nonlinear constitutive behavior examples
+├── other_radius_pressure_settings/       # Models with varying radii and pressures
+├── other_shapes/                         # Non-circular bubble geometries
+└── README.md
+```
+
+## 🔬 Theoretical Background
+
+### Governing Equations
+
+The framework is based on the modified Föppl-von Kármán plate theory with decoupled constitutive relations:
+
+**In-plane (membrane) stiffness:**
+```
+[Nₓ, Nᵧ, Nₓᵧ]ᵀ = [C²ᴰ] × [εₓ, εᵧ, γₓᵧ]ᵀ
+```
+
+**Out-of-plane (bending) stiffness:**
+```
+[Mₓ, Mᵧ, Mₓᵧ]ᵀ = [D] × [κₓ, κᵧ, 2κₓᵧ]ᵀ
+```
+
+### Energy-Based Loss Function
+
+The total potential energy serves as the loss function:
+```
+Loss = Πₘ + Πᵦ + V
+```
+where:
+- `Πₘ`: Membrane strain energy
+- `Πᵦ`: Bending strain energy
+- `V`: Work done by external pressure
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.8+
+- PyTorch 1.10+
+- CUDA-capable GPU (recommended)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/YanChen32/PINNs_bulge_tests.git
+cd PINNs_bulge_tests
+
+# Install dependencies
+pip install torch numpy matplotlib scipy jupyter
+```
+
+### Quick Start
+
+1. **For membrane model simulation:**
+   ```bash
+   jupyter notebook 2D_crystal_bubble_membrane.ipynb
+   ```
+
+2. **For plate model simulation (with bending):**
+   ```bash
+   jupyter notebook 2D_crystal_bubble_plate.ipynb
+   ```
+
+3. **For non-circular geometries:**
+   ```bash
+   jupyter notebook 2D_crystal_bubble_plate_ellipse.ipynb
+   # or
+   jupyter notebook 2D_crystal_bubble_plate_square.ipynb
+   ```
+
+## 📊 Representative Materials
+
+The framework has been validated on four representative 2D crystals:
+
+| Material | Symmetry | C₁₁²ᴰ (N/m) | C₂₂²ᴰ (N/m) | C₁₂²ᴰ (N/m) | C₆₆²ᴰ (N/m) |
+|----------|----------|-------------|-------------|-------------|-------------|
+| Graphene | Hexagonal | 354.1 | 354.1 | 56.7 | 148.7 |
+| Black Phosphorene | Rectangular | 102.98 | 27.30 | 17.51 | 22.76 |
+| Mn₂S₂ | Square | 121.83 | 121.83 | 33.90 | 108.45 |
+| PdCdCl₄ | Oblique | - | - | - | - |
+
+## 🔧 Customization
+
+### Modifying Material Properties
+
+Edit the stiffness matrices in the notebook:
+```python
+# In-plane stiffness matrix (N/m)
+C2D = torch.tensor([[C11, C12, C16],
+                    [C12, C22, C26],
+                    [C16, C26, C66]])
+
+# Bending stiffness matrix (N)
+D = torch.tensor([[D11, D12, D16],
+                  [D12, D22, D26],
+                  [D16, D26, D66]])
+```
+
+### Adjusting Geometry and Loading
+
+```python
+# Bubble radius (nm)
+a = 10.0
+
+# Applied pressure (MPa)
+q = 307.4
+```
+
+### Network Architecture
+
+```python
+# Default configuration
+hidden_layers = [32, 64, 64, 64, 32]
+activation = 'tanh'
+```
+
+## 📈 Training Tips
+
+- **Learning Rate**: Initial lr = 2×10⁻³ with ReduceLROnPlateau scheduler
+- **Sampling**: 100,000 points with periodic resampling
+- **Convergence**: Typical training time ~2700s on RTX 3060 for nonlinear plate model
+
+## 📝 Citation
+
+If you find this code useful for your research, please cite our paper:
+
+```bibtex
+@article{zheng2025pinns,
+  title={Physics-Informed Neural Networks for Bulge Test Modeling of General Anisotropic Two-Dimensional Crystalline Materials with Decoupled Elasticity},
+  author={Zheng, Yichen and Kang, Kai and Zhang, Zaiyu and Liu, Huichao and Liu, Yilun and Chen, Yan},
+  journal={[Journal Name]},
+  year={2025},
+  doi={[DOI]}
+}
+```
+
+## 👥 Authors
+
+- **Yichen Zheng** - *Methodology, Software, Validation*
+- **Kai Kang** - *Validation, Investigation*
+- **Zaiyu Zhang** - *Validation, Investigation*
+- **Huichao Liu*** - *Methodology, Validation* ([hc.liu@pku.edu.cn](mailto:hc.liu@pku.edu.cn))
+- **Yilun Liu** - *Validation, Investigation*
+- **Yan Chen*** - *Conceptualization, Supervision* ([yanchen@xjtu.edu.cn](mailto:yanchen@xjtu.edu.cn))
+
+*Laboratory for Multiscale Mechanics and Medical Science, SV LAB, School of Aerospace, Xi'an Jiaotong University, Xi'an 710049, China*
+
+## 🙏 Acknowledgments
+
+This work was supported by:
+- National Natural Science Foundation of China (Grant No. 12302140)
+- National Key Projects for Research and Development of China (Grant No. 2024YFA1209801)
+- Science and Technology Agency of Shaanxi Province (Grant No. 2025YXYC012)
+- Fundamental Research Funds for the Central Universities of China
+- China Postdoctoral Science Foundation
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📧 Contact
+
+For questions or collaborations, please contact:
+- Huichao Liu: [hc.liu@pku.edu.cn](mailto:hc.liu@pku.edu.cn)
+- Yan Chen: [yanchen@xjtu.edu.cn](mailto:yanchen@xjtu.edu.cn)
+
+---
+
+<p align="center">
+  <b>Keywords:</b> Physics-Informed Neural Networks | Bulge Test | Two-dimensional Materials | Anisotropic Mechanics | Nonlinear Elasticity
+</p>
+
