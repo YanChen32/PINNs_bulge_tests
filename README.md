@@ -15,7 +15,7 @@ Two-dimensional (2D) crystalline materials have great potential for flexible ele
 This work develops a **Physics-Informed Neural Network (PINNs) framework** for 2D material bulge testing, combining modified **Föppl-von Kármán theory** with **energy-based loss functions** to capture arbitrary symmetries and decoupled elasticity.
 
 <p align="center">
-  <img src="https://github.com/YanChen32/PINNs_bulge_tests/raw/framework.png" alt="Framework Overview" width="800"/>
+  <img src="https://github.com/YanChen32/PINNs_bulge_tests/blob/main/raw/framework.png" alt="Framework Overview" width="800"/>
 </p>
 
 ## ✨ Key Features
