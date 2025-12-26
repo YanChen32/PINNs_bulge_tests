@@ -85,7 +85,7 @@ git clone https://github.com/YanChen32/PINNs_bulge_tests.git
 cd PINNs_bulge_tests
 
 # Install dependencies
-pip install torch numpy matplotlib scipy jupyter
+pip install torch numpy matplotlib scipy pygmsh jupyter
 ```
 
 ### Quick Start
