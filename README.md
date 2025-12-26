@@ -124,33 +124,47 @@ The framework has been validated on four representative 2D crystals:
 
 Edit the stiffness matrices in the notebook:
 ```python
+# e.g. graphene
 # In-plane stiffness matrix (N/m)
-C2D = torch.tensor([[C11, C12, C16],
-                    [C12, C22, C26],
-                    [C16, C26, C66]])
+C11_2D = 354.1
+C22_2D = 354.1
+C12_2D = 56.7
+C16_2D = 0
+C26_2D = 0
+C66_2D = 148.7
 
-# Bending stiffness matrix (N)
-D = torch.tensor([[D11, D12, D16],
-                  [D12, D22, D26],
-                  [D16, D26, D66]])
+# Bending stiffness matrix (J)
+D11 = 2.38e-19
+D22 = 2.38e-19
+D12 = -0.05e-19
+D16 = 0
+D26 = 0
+D66 = 1.215e-19
 ```
 
 ### Adjusting Geometry and Loading
 
 ```python
-# Bubble radius (nm)
-a = 10.0
+# Bubble radius (m)
+a = 10.0e-9
 
-# Applied pressure (MPa)
-q = 307.4
+# Applied pressure (Pa)
+q = 307.4e6
 ```
 
 ### Network Architecture
 
 ```python
 # Default configuration
-hidden_layers = [32, 64, 64, 64, 32]
-activation = 'tanh'
+hiddenSizesW = [32, 64, 64, 64, 32]
+hiddenSizesUV = [32, 64, 64, 64, 32]
+
+# Activation function
+def forward(self, inputData):
+    tensor = torch.tanh(self.Input(inputData))
+    for layer in self.Hidden:
+        tensor = torch.tanh(layer(tensor))
+    outputData = self.Output(tensor)
 ```
 
 ## 📈 Training Tips
